@@ -2,30 +2,36 @@
 // Application Entry Point
 //////////////////////////////////////
 #include "./OPengine.h"
+#include "./Game/inc/GameState.h"
 
 //////////////////////////////////////
 // Application Methods
 //////////////////////////////////////
 
 void ApplicationInit() {
-	OPchar* assetDir = NULL;
-#ifdef OPIFEX_ASSETS
-	assetDir = OPIFEX_ASSETS;
-#endif
 	OPloadersAddDefault();
-	OPcmanInit(assetDir);
+	OPcmanInit(OPIFEX_ASSETS);
 
 	OPrenderInit();
+	OPgamePadSetDeadZones(0.2f);
+
+	OPgameStateChange(&GameState);
 }
 
 int ApplicationUpdate(OPtimer* timer) {
-	OPrenderClear(0,0,0);
-	OPrenderPresent();
-	return 0;
+	OPinputSystemUpdate(timer);
+	OPcmanUpdate(timer);
+
+	if (OPkeyboardWasReleased(OPKEY_ESCAPE)) {
+		return 1;
+	}
+
+	return ActiveState->Update(timer);
 }
 
 void ApplicationDestroy() {
-
+	ActiveState->Exit(ActiveState);
+	OPcmanDestroy();
 }
 
 void ApplicationSetup() {
