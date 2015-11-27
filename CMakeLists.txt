@@ -92,13 +92,13 @@ add_source_group(src "${PROJECT_SOURCE_DIR}/Game/src" APPLICATION_SRC)
 
 
 # Application BUILD
-add_executable(9_Application ${APPLICATION_SRC})
-add_opifex_definitions(9_Application "")
+add_executable(Game ${APPLICATION_SRC})
+add_opifex_definitions(Game "")
 add_opifex_defines()
-target_link_libraries(9_Application Common)
-set_target_properties(9_Application PROPERTIES OUTPUT_NAME "Fusion")
-add_opifex_libraries(9_Application)
-add_opifex_assets(9_Application)
+target_link_libraries(Game Common)
+set_target_properties(Game PROPERTIES OUTPUT_NAME "Fusion")
+add_opifex_libraries(Game)
+add_opifex_assets(Game)
 
 
 opifex_engine_status_messages()
